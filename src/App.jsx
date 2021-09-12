@@ -12,9 +12,6 @@ class App extends React.Component {
     super(props)
     this.state = {
       movies: [],
-      categories: ['All', 'Movie', 'Series'],
-      filter: 'all',
-      search: ''
     }
   }
 
@@ -33,27 +30,13 @@ class App extends React.Component {
     }
   }
 
-  filterMovies = (prop) => {
-    console.log(prop);
-    this.setState({filter: prop})
-  }
-
   render() {
     const { movies } = this.state;
     return (
       <>
         <Header />
         <Main>
-          <Search callback={this.searchMovies} value={this.state.filter}/>
-          <div className='categories'>{this.state.categories.map((category, id) => (
-          <Radio
-            callback={this.filterMovies} 
-            dataset={category.toLocaleLowerCase()} 
-            value={this.state.filter} 
-            key={id}>
-            {category}
-          </Radio>
-          ))}</div>
+          <Search callback={this.searchMovies}/>
           {movies.length ? (<Movies movies={movies} />) : (<Preloader />)}
         </Main>
         <Footer />

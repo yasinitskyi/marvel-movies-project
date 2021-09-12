@@ -17,7 +17,7 @@ class Radio extends React.Component {
 			<p>
 				<label>
 					<input 
-						onChange={() => {this.props.callback(this.state.type)}}
+						onChange={() => {this.props.handleFilter(this.state.type)}}
 						className="with-gap" 
 						name="category" 
 						type="radio" 
