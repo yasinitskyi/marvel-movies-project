@@ -12,32 +12,33 @@ class App extends React.Component {
     super(props)
     this.state = {
       movies: [],
+      loading: true
     }
   }
 
   componentDidMount() {
     fetch('http://www.omdbapi.com/?apikey=e6c5beaa&s=marvel')
       .then(response => response.json())
-      .then(data => this.setState(() => ({ movies: data.Search }), () => console.log(this.state.movies)))
+      .then(data => this.setState(() => ({movies: data.Search, loading: false}), () => console.log(this.state.movies)))
   }
 
   searchMovies = (str, type) => {
     if(str.trim() !== '') {
-      this.setState({ movies: []})
+      this.setState({movies: [], loading: true})
       fetch(`http://www.omdbapi.com/?apikey=e6c5beaa&s=${str.toLowerCase()}${type !== 'all' ? `&type=${type}` : ''}`)
         .then(response => response.json())
-        .then(data => this.setState({ movies: data.Search }))
+        .then(data => this.setState({movies: data.Search, loading: false}))
     }
   }
 
   render() {
-    const { movies } = this.state;
+    const { movies, loading } = this.state;
     return (
       <>
         <Header />
         <Main>
           <Search callback={this.searchMovies}/>
-          {movies.length ? (<Movies movies={movies} />) : (<Preloader />)}
+          {loading ? (<Preloader />) : (<Movies movies={movies} />)}
         </Main>
         <Footer />
       </>
