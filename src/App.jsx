@@ -22,8 +22,8 @@ class App extends React.Component {
   }
 
   searchMovies = (str, type) => {
-    if(str !== '') {
-      this.setState({ movies: [], search: str.toLowerCase() })
+    if(str.trim() !== '') {
+      this.setState({ movies: []})
       fetch(`http://www.omdbapi.com/?apikey=e6c5beaa&s=${str.toLowerCase()}${type !== 'all' ? `&type=${type}` : ''}`)
         .then(response => response.json())
         .then(data => this.setState({ movies: data.Search }))
