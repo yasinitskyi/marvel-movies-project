@@ -24,9 +24,9 @@ class App extends React.Component {
       .then(data => this.setState(() => ({ movies: data.Search }), () => console.log(this.state.movies)))
   }
 
-  searchMovies = (str, type) => {
+  searchMovies = (str, type = 'all') => {
     if(str !== '') {
-      this.setState({ movies: [], search: str.toLowerCase() })
+      this.setState({ movies: []})
       fetch(`http://www.omdbapi.com/?apikey=e6c5beaa&s=${str.toLowerCase()}${type !== 'all' ? `&type=${type}` : ''}`)
         .then(response => response.json())
         .then(data => this.setState({ movies: data.Search }))
@@ -44,16 +44,7 @@ class App extends React.Component {
       <>
         <Header />
         <Main>
-          <Search callback={this.searchMovies} value={this.state.filter}/>
-          <div className='categories'>{this.state.categories.map((category, id) => (
-          <Radio
-            callback={this.filterMovies} 
-            dataset={category.toLocaleLowerCase()} 
-            value={this.state.filter} 
-            key={id}>
-            {category}
-          </Radio>
-          ))}</div>
+          <Search callback={this.searchMovies}/>
           {movies.length ? (<Movies movies={movies} />) : (<Preloader />)}
         </Main>
         <Footer />
